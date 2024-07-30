@@ -1,1 +1,13 @@
-echo "Hello World, this is my first pipeline"
+pipeline {
+    agent any
+
+    stages {
+        stage('Stage-1') {
+            steps {
+               
+            echo "my first pipeline"
+            }
+        }
+    }
+}
+
