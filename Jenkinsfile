@@ -26,6 +26,7 @@ pipeline {
                     try {
                         // Run the batch command and capture the return status
                         def returnStatus = bat(script: command, returnStatus: true)
+                        echo "$(returnStatus)"
 
                         // Check the status and handle errors
                         if (returnStatus != 0) {
