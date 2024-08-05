@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+
         SQL_PACKAGE_PATH = '"C:\\Users\\Administrator\\.dotnet\\tools\\sqlpackage.exe"' // Adjust the path as needed
         SERVER_NAME = 'WIN-C0L67N6I1KF\\SQLEXPRESS'
         USERNAME = 'sqladmin'
@@ -14,8 +15,9 @@ pipeline {
         stage('Export Database') {
             steps {
                 script {
+                    //set SQL_CONNECTION_TRUSTED=true//
                     // Construct the sqlpackage command
-                    def command = "${env.SQL_PACKAGE_PATH} /Action:Export /SourceServerName:${env.SERVER_NAME} /SourceDatabaseName:${env.DATABASE_NAME} /SourceUser:${env.USERNAME} /SourcePassword:${env.PASSWORD} /TargetFile:${env.BACAPC_FILE}"
+                    def command = "set SQL_CONNECTION_TRUSTED=true ${env.SQL_PACKAGE_PATH} /Action:Export /SourceServerName:${env.SERVER_NAME} /SourceDatabaseName:${env.DATABASE_NAME} /SourceUser:${env.USERNAME} /SourcePassword:${env.PASSWORD} /TargetFile:${env.BACAPC_FILE}"
                     
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command}"
