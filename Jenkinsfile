@@ -23,16 +23,30 @@ pipeline {
                     echo "Running command: ${command}"
                     
                     // Execute the command
-                    bat(script: command, returnStatus: true)
+                    try {
+        // Run the batch command and capture the return status
+        def returnStatus = bat(script: command, returnStatus: true)
+
+        // Check the status and handle errors
+        if (returnStatus != 0) {
+            error "Command failed with exit status ${returnStatus}"
+        } else {
+            echo "Command succeeded"
+        }
+    } catch (Exception e) {
+        // Handle any unexpected errors here
+        echo "An error occurred: ${e.message}"
+        currentBuild.result = 'FAILURE'
+    }
                 }
             }
         }
     }
     
-    post {
-        always {
-            // Archive the .bacpac file
-            archiveArtifacts artifacts: '**/*.bacpac', allowEmptyArchive: true
-        }
-    }
+    // post {
+    //     always {
+    //         // Archive the .bacpac file
+    //         archiveArtifacts artifacts: '**/*.bacpac', allowEmptyArchive: true
+    //     }
+    // }
 }
