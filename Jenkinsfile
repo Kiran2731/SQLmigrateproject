@@ -77,30 +77,31 @@ pipeline {
                         echo "An error occurred: ${e.message}"
                         currentBuild.result = 'FAILURE'
                     }
-                     sh '''
+
+
+                sh  '''
                     az account set --subscription ${env.AZURE_SUBSCRIPTION_ID}
                     '''
                     
-                    // Login to az sub
                      def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0"
                     
-                   // Print the command (optional, for debugging purposes)
+             
                     echo "Running command: ${command2}"
                     
-                    // Execute the command
-                    /try {
-                       // Run the batch command and capture the return status
-                      def returnStatus = bat(script: command2, returnStatus: true)
+                  
+                    try {
+                  
+                      def returnStatus2 = bat(script: command2, returnStatus: true)
                                            
                      
-                        // Check the status and handle errors
-                        if (returnStatus != 0) {
-                            error "Command failed with exit status ${returnStatus}"
+                       
+                        if (returnStatus2 != 0) {
+                            error "Command failed with exit status ${returnStatus2}"
                         } else {
                             echo "Command succeeded"
                         }
                      } catch (Exception e) {
-                       // Handle any unexpected errors here
+                  
                         echo "An error occurred: ${e.message}"
                        currentBuild.result = 'FAILURE'
                      }
