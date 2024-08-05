@@ -26,8 +26,14 @@ pipeline {
                     try {
                         // Run the batch command and capture the return status
                         def returnStatus = bat(script: command, returnStatus: true)
+                        def output = bat(script: command, returnStdout: true).trim()
+                        
                         echo "${returnStatus}"
 
+                        echo "${returnStdout}"
+
+                        echo "${output}"
+                        
                         // Check the status and handle errors
                         if (returnStatus != 0) {
                             error "Command failed with exit status ${returnStatus}"
