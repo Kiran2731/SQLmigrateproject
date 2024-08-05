@@ -6,7 +6,7 @@ pipeline {
         SQL_PACKAGE_PATH = '"C:\\Users\\Administrator\\.dotnet\\tools\\sqlpackage.exe"' // Adjust the path as needed
         SERVER_NAME = 'WIN-C0L67N6I1KF\\SQLEXPRESS'
         USERNAME = 'sqladmin'
-        PASSWORD = 'jenkins@1234' // Store sensitive data like this in Jenkins credentials for security
+        PASSWORD = credentials('sqlserver-db-password') // Store sensitive data like this in Jenkins credentials for security
         DATABASE_NAME = 'employeedb'
         BACAPC_FILE = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
     }
