@@ -12,12 +12,12 @@ pipeline {
     }
 
     stages {
-        stage('Export Database') {
+        stage('Export Database bacpac to local machine') {
             steps {
                 script {
-                    //set SQL_CONNECTION_TRUSTED=true//
+              
                     // Construct the sqlpackage command
-                    def command = "set SQL_CONNECTION_TRUSTED=true ${env.SQL_PACKAGE_PATH} /Action:Export /SourceServerName:${env.SERVER_NAME} /SourceDatabaseName:${env.DATABASE_NAME} /SourceUser:${env.USERNAME} /SourcePassword:${env.PASSWORD} /TargetFile:${env.BACAPC_FILE}"
+                    def command = " ${env.SQL_PACKAGE_PATH} /Action:Export /SourceServerName:${env.SERVER_NAME} /SourceDatabaseName:${env.DATABASE_NAME} /SourceUser:${env.USERNAME} /SourcePassword:${env.PASSWORD} /TargetFile:${env.BACAPC_FILE} /SourceTrustServerCertificate:true"
                     
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command}"
@@ -26,14 +26,8 @@ pipeline {
                     try {
                         // Run the batch command and capture the return status
                         def returnStatus = bat(script: command, returnStatus: true)
-                        def output = bat(script: command, returnStdout: true).trim()
-                        
-                        echo "${returnStatus}"
-
-                       
-
-                        echo "${output}"
-
+                                           
+                     
                         // Check the status and handle errors
                         if (returnStatus != 0) {
                             error "Command failed with exit status ${returnStatus}"
