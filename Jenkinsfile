@@ -30,10 +30,10 @@ pipeline {
                         
                         echo "${returnStatus}"
 
-                        echo "${returnStdout}"
+                       
 
                         echo "${output}"
-                        
+
                         // Check the status and handle errors
                         if (returnStatus != 0) {
                             error "Command failed with exit status ${returnStatus}"
