@@ -83,7 +83,7 @@ pipeline {
                 //     az account set --subscription ${env.AZURE_SUBSCRIPTION_ID}
                 //     '''
                     
-                     def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0"
+                     def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0 --backup-storage-redundancy Local"
                     
              
                     echo "Running command: ${command2}"
