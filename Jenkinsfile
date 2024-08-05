@@ -63,18 +63,18 @@ pipeline {
                     // Execute the command
                     try {
                         // Run the batch command and capture the return status
-                        def returnStatus = bat(script: command1, returnStatus: true)
+                        def returnStatus1 = bat(script: command1, returnStatus: true)
                                            
                      
                         // Check the status and handle errors
-                        if (returnStatus != 0) {
-                            error "Command failed with exit status ${returnStatus}"
+                        if (returnStatus1 != 0) {
+                            error "Command1 failed with exit status ${returnStatus1}"
                         } else {
-                            echo "Command succeeded"
+                            echo "Command1 succeeded1"
                         }
                     } catch (Exception e) {
                         // Handle any unexpected errors here
-                        echo "An error occurred: ${e.message}"
+                        echo "An error1 occurred: ${e.message}"
                         currentBuild.result = 'FAILURE'
                     }
 
@@ -96,13 +96,13 @@ pipeline {
                      
                        
                         if (returnStatus2 != 0) {
-                            error "Command failed with exit status ${returnStatus2}"
+                            error "Command2 failed with exit status ${returnStatus2}"
                         } else {
-                            echo "Command succeeded"
+                            echo "Command2 succeeded2"
                         }
                      } catch (Exception e) {
                   
-                        echo "An error occurred: ${e.message}"
+                        echo "An error2 occurred: ${e.message}"
                        currentBuild.result = 'FAILURE'
                      }
                 }
