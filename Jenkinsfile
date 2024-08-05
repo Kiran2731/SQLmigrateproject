@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SQL_PACKAGE_PATH = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.SQLEXPRESS\\MSSQL\\Bin\\sqlservr.exe' // Adjust the path as needed
+        SQL_PACKAGE_PATH = '"C:\\Program Files\\Microsoft SQL Server\\MSSQL14.SQLEXPRESS\\MSSQL\\Bin\\sqlservr.exe"' // Adjust the path as needed
         SERVER_NAME = 'WIN-C0L67N6I1KF\\SQLEXPRESS'
         USERNAME = 'sqladmin'
         PASSWORD = 'jenkins@1234' // Store sensitive data like this in Jenkins credentials for security
