@@ -8,7 +8,7 @@ pipeline {
         USERNAME = 'sqladmin'
         PASSWORD = 'jenkins@1234' // Store sensitive data like this in Jenkins credentials for security
         DATABASE_NAME = 'employeedb'
-        BACAPC_FILE = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
+        BACAPC_FILE = '@"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
     }
 
     stages {
