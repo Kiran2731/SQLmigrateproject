@@ -8,7 +8,7 @@ pipeline {
         USERNAME = 'sqladmin'
         PASSWORD = credentials('sqlserver-db-password') // Store sensitive data like this in Jenkins credentials for security
         DATABASE_NAME = 'employeedb'
-        AZ_CLIENT_SECRET = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
+        BACAPC_FILE = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
 
         // Azure credentials details 
         AZ_CLIENT_ID = credentials('az-appreg-client-id')
@@ -111,7 +111,7 @@ pipeline {
 
                 // importing bacpac file to  azure target machine
 
-                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server ${env.SQL_SERVER} --name ${env.SQL_DATABASE} --admin-user ${env.AZ_CLIENT_ID} --admin-password ${env.AZ_CLIENT_SECRET} --bacpac-file ${env.AZ_CLIENT_SECRET}"                    
+                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server targetsqlserver --name employeedb --admin-user sqladmin --admin-password sql@1234 --bacpac-file ${env.BACAPC_FILE}"                    
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command3}"
                     
