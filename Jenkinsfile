@@ -15,6 +15,9 @@ pipeline {
         AZ_CLIENT_SECRET= credentials('az-appreg-client-secret')
         AZ_TENANT_ID = credentials('az-appreg-tenant-id')
         AZURE_SUBSCRIPTION_ID =credentials('az-subscription-id')
+        RESOURCE_GROUP = 'rg-devops-demo'
+        SQL_SERVER = 'targetsqlserver'
+        SQL_DATABASE = 'employeedb'
     }
 
     stages {
@@ -65,7 +68,6 @@ pipeline {
                         // Run the batch command and capture the return status
                         def returnStatus1 = bat(script: command1, returnStatus: true)
                                            
-                     
                         // Check the status and handle errors
                         if (returnStatus1 != 0) {
                             error "Command1 failed with exit status ${returnStatus1}"
@@ -111,25 +113,25 @@ pipeline {
 
                 // importing bacpac file to  azure target machine
 
-                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server targetsqlserver --name employeedb --admin-user sqladmin --admin-password sql@1234 --bacpac-file ${env.BACAPC_FILE}"                    
+                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server ${env.SQL_SERVER} --name ${env.SQL_DATABASE} --admin-user sqladmin --admin-password sql@1234 --bacpac-file ${env.BACAPC_FILE}"                    
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command3}"
                     
                     // Execute the command
                     try {
                         // Run the batch command and capture the return status
-                        def returnStatus = bat(script: command3, returnStatus: true)
+                        def returnStatus3 = bat(script: command3, returnStatus: true)
                                            
                      
                         // Check the status and handle errors
-                        if (returnStatus != 0) {
-                            error "Command3 failed with exit status ${returnStatus}"
+                        if (returnStatus3 != 0) {
+                            error "Command3 failed with exit status ${returnStatus3}"
                         } else {
                             echo "Command3 succeeded"
                         }
                     } catch (Exception e) {
                         // Handle any unexpected errors here
-                        echo "An error occurred: ${e.message}"
+                        echo "An error3 occurred: ${e.message}"
                         currentBuild.result = 'FAILURE'
 
                 }
