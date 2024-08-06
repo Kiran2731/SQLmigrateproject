@@ -8,7 +8,7 @@ pipeline {
         USERNAME = 'sqladmin'
         PASSWORD = credentials('sqlserver-db-password') // Store sensitive data like this in Jenkins credentials for security
         DATABASE_NAME = 'employeedb'
-        BACAPC_FILE = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
+        AZ_CLIENT_SECRET = '"C:\\temp\\backup\\backup.bacpac"' // Adjust the path as needed
 
         // Azure credentials details 
         AZ_CLIENT_ID = credentials('az-appreg-client-id')
@@ -83,28 +83,55 @@ pipeline {
                 //     az account set --subscription ${env.AZURE_SUBSCRIPTION_ID}
                 //     '''
                     
-                     def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0 --backup-storage-redundancy Local"
+
+                    // Creating data base in azure
+                    //  def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0 --backup-storage-redundancy Local"
                     
              
-                    echo "Running command: ${command2}"
+                    // echo "Running command: ${command2}"
                     
                   
-                    try {
+                    // try {
                   
-                      def returnStatus2 = bat(script: command2, returnStatus: true)
+                    //   def returnStatus2 = bat(script: command2, returnStatus: true)
                                            
                      
                        
-                        if (returnStatus2 != 0) {
-                            error "Command2 failed with exit status ${returnStatus2}"
-                        } else {
-                            echo "Command2 succeeded2"
-                        }
-                     } catch (Exception e) {
+                    //     if (returnStatus2 != 0) {
+                    //         error "Command2 failed with exit status ${returnStatus2}"
+                    //     } else {
+                    //         echo "Command2 succeeded2"
+                    //     }
+                    //  } catch (Exception e) {
                   
-                        echo "An error2 occurred: ${e.message}"
-                       currentBuild.result = 'FAILURE'
+                    //     echo "An error2 occurred: ${e.message}"
+                    //    currentBuild.result = 'FAILURE'
                      }
+
+
+                // importing bacpac file to  azure target machine
+
+                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server ${env.SQL_SERVER} --name ${env.SQL_DATABASE} --admin-user ${env.AZ_CLIENT_ID} --admin-password ${env.AZ_CLIENT_SECRET} --bacpac-file ${env.AZ_CLIENT_SECRET}"                    
+                    // Print the command (optional, for debugging purposes)
+                    echo "Running command: ${command3}"
+                    
+                    // Execute the command
+                    try {
+                        // Run the batch command and capture the return status
+                        def returnStatus = bat(script: command3, returnStatus: true)
+                                           
+                     
+                        // Check the status and handle errors
+                        if (returnStatus != 0) {
+                            error "Command3 failed with exit status ${returnStatus}"
+                        } else {
+                            echo "Command3 succeeded"
+                        }
+                    } catch (Exception e) {
+                        // Handle any unexpected errors here
+                        echo "An error occurred: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+
                 }
             }
         }
