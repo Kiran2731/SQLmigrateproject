@@ -120,7 +120,7 @@ pipeline {
                 script {
               
                     // upload to azure blob storage
-                    def command4 = " az storage blob upload --container-name ${env.CONTAINER_NAME} --name employeedb.bacpac --file ${env.BACAPC_FILE} --account-name ${env.ACCOUNT_NAME} --account-key ${env.ACCOUNT_KEy}"
+                    def command4 = " az storage blob upload --container-name ${env.CONTAINER_NAME} --name employeedb.bacpac --file ${env.BACAPC_FILE} --account-name ${env.ACCOUNT_NAME} --account-key ${env.ACCOUNT_KEy} --overwrite"
                     
 
                     // Print the command (optional, for debugging purposes)
