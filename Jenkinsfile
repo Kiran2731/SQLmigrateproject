@@ -16,8 +16,16 @@ pipeline {
         AZ_TENANT_ID = credentials('az-appreg-tenant-id')
         AZURE_SUBSCRIPTION_ID =credentials('az-subscription-id')
         RESOURCE_GROUP = 'rg-devops-demo'
+        // Target SQL creds
         SQL_SERVER = 'targetsqlserver'
         SQL_DATABASE = 'employeedb'
+        SQL_USER ='sqladmin'
+        SQL_KEY = credentials('az-sqlserver-key')
+        CONTAINER_NAME = 'dbbackup'
+        ACCOUNT_NAME ='sqldatastorage'
+        ACCOUNT_KEY = credentials('az-sql-storageaccount-key')
+        STORAGE_URI = credentials('az-storage-uri')
+
     }
 
     stages {
@@ -80,7 +88,6 @@ pipeline {
                         currentBuild.result = 'FAILURE'
                     }
 
-
                 // sh  '''
                 //     az account set --subscription ${env.AZURE_SUBSCRIPTION_ID}
                 //     '''
@@ -110,10 +117,37 @@ pipeline {
                     //    currentBuild.result = 'FAILURE'
                      }
 
+                script {
+              
+                    // upload to azure blob storage
+                    def command4 = " az storage blob upload --container-name ${env.CONTAINER_NAME} --name employeedb.bacpac --file ${env.BACAPC_FILE} --account-name ${env.ACCOUNT_NAME} --account-key ${env.ACCOUNT_KEy}"
+                    
+
+                    // Print the command (optional, for debugging purposes)
+                    echo "Running command: ${command4}"
+                    
+                    // Execute the command
+                    try {
+                        // Run the batch command and capture the return status
+                        def returnStatus4 = bat(script: command4, returnStatus: true)
+                                           
+                        // Check the status and handle errors
+                        if (returnStatus1 != 0) {
+                            error "Command4 failed with exit status ${returnStatus4}"
+                        } else {
+                            echo "Command4 succeeded4"
+                        }
+                    } catch (Exception e) {
+                        // Handle any unexpected errors here
+                        echo "An error4 occurred: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                    }
+
+
 
                 // importing bacpac file to  azure target machine
 
-                    def command3 = "az sql db import --resource-group ${env.RESOURCE_GROUP} --server ${env.SQL_SERVER} --name ${env.SQL_DATABASE} --admin-user sqladmin --admin-password sql@1234 --bacpac-file ${env.BACAPC_FILE}"                    
+                    def command3 = "az sql db import  --server targetsqlserver  --name employeedb  --resource-group rg-devops-demo  --admin-password ${env.SQL_KEY} --admin-user sqladmin --storage-key ${env.ACCOUNT_KEY} --storage-key-type "StorageAccessKey" --storage-uri ${env.STORAGE_URI}"             
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command3}"
                     
@@ -139,7 +173,6 @@ pipeline {
         }
 
     }
-
 
     
     // post {
