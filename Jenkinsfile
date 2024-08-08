@@ -94,27 +94,27 @@ pipeline {
                     
 
                     // Creating data base in azure
-                    //  def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0 --backup-storage-redundancy Local"
+                    def command2 = " az sql db create --resource-group rg-devops-demo --server targetsqlserver --name employeedb --service-objective S0 --backup-storage-redundancy Local"
                     
              
-                    // echo "Running command: ${command2}"
+                    echo "Running command: ${command2}"
                     
                   
-                    // try {
+                 try {
                   
-                    //   def returnStatus2 = bat(script: command2, returnStatus: true)
+                      def returnStatus2 = bat(script: command2, returnStatus: true)
                                            
                      
                        
-                    //     if (returnStatus2 != 0) {
-                    //         error "Command2 failed with exit status ${returnStatus2}"
-                    //     } else {
-                    //         echo "Command2 succeeded2"
-                    //     }
-                    //  } catch (Exception e) {
+                     if (returnStatus2 != 0) {
+                      error "Command2 failed with exit status ${returnStatus2}"
+                       } else {
+                       echo "Command2 succeeded2"
+                       }
+                     } catch (Exception e) {
                   
-                    //     echo "An error2 occurred: ${e.message}"
-                    //    currentBuild.result = 'FAILURE'
+                        echo "An error2 occurred: ${e.message}"
+                       currentBuild.result = 'FAILURE'
                      }
 
                 script {
