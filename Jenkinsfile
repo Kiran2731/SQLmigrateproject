@@ -146,7 +146,7 @@ pipeline {
 
                 // importing bacpac file to  azure target machine
 
-                    def command3 = "az sql db import  --server targetsqlserver  --name employeedb  --resource-group rg-devops-demo  --admin-password ${env.SQL_KEY} --admin-user sqladmin --storage-key ${env.ACCOUNT_KEY} --storage-key-type "StorageAccessKey" --storage-uri ${env.STORAGE_URI}"             
+                    def command3 = "az sql db import  --server targetsqlserver  --name employeedb  --resource-group rg-devops-demo  --admin-password ${env.SQL_KEY} --admin-user sqladmin --storage-key ${env.ACCOUNT_KEY} --storage-key-type StorageAccessKey --storage-uri ${env.STORAGE_URI}"             
                     // Print the command (optional, for debugging purposes)
                     echo "Running command: ${command3}"
                     
