@@ -99,7 +99,6 @@ pipeline {
              
                     echo "Running command: ${command2}"
                     
-                  
                  try {
                   
                       def returnStatus2 = bat(script: command2, returnStatus: true)
@@ -132,7 +131,7 @@ pipeline {
                         def returnStatus4 = bat(script: command4, returnStatus: true)
                                            
                         // Check the status and handle errors
-                        if (returnStatus1 != 0) {
+                        if (returnStatus4 != 0) {
                             error "Command4 failed with exit status ${returnStatus4}"
                         } else {
                             echo "Command4 succeeded4"
